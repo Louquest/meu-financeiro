@@ -77,6 +77,7 @@ class SupaQuery{
   insert(payload){this.method='POST';this.payload=payload;return this._run()}
   update(payload){this.method='PATCH';this.payload=payload;return this}
   delete(){this.method='DELETE';return this}
+  then(resolve,reject){return this._run().then(resolve,reject)}
   async _run(){
     const s=storedSession(); if(!s?.access_token)return {data:null,error:{message:'Sessão expirada. Faça login novamente.'}};
     let url=SUPABASE_URL+'/rest/v1/'+this.table, params=[];
@@ -103,9 +104,7 @@ async function loginUser(){
   try{
     const {error}=await db.auth.signInWithPassword({email,password});
     if(error){st.textContent='Não foi possível entrar: '+error.message;return}
-    await document.getElementById('authPassword')?.addEventListener('keydown',e=>{if(e.key==='Enter')loginUser()});
-document.getElementById('authEmail')?.addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('authPassword')?.focus()});
-startRemoteApp();
+    await startRemoteApp();
   }catch(e){st.textContent='Erro de conexão: '+e.message}
 }
 async function signOutUser(){await db.auth.signOut();REMOTE_READY=false;document.body.classList.remove('auth-ready');document.body.classList.add('auth-loading');$('authStatus').textContent='Sessão encerrada.'}
@@ -135,6 +134,7 @@ async function startRemoteApp(){
     document.body.classList.remove('auth-loading');document.body.classList.add('auth-ready');$('authStatus').textContent='';
   }catch(e){REMOTE_READY=false;$('authStatus').textContent='Erro ao carregar a família: '+e.message}
 }
+</script>
 <script>
 const KEY='meuFinanceiro_v1';
 const defaultProducts=[['Arroz 5 kg','Mercearia'],['Feijão 1 kg','Mercearia'],['Macarrão','Mercearia'],['Óleo','Mercearia'],['Açúcar','Mercearia'],['Café','Mercearia'],['Leite','Laticínios'],['Queijo','Frios'],['Ovos','Frios'],['Pão','Padaria'],['Banana','Hortifruti'],['Maçã','Hortifruti'],['Tomate','Hortifruti'],['Batata','Hortifruti'],['Cebola','Hortifruti'],['Alface','Hortifruti'],['Frango','Carnes'],['Carne bovina','Carnes'],['Papel higiênico','Higiene'],['Sabonete','Higiene'],['Shampoo','Higiene'],['Detergente','Limpeza'],['Sabão em pó','Limpeza'],['Amaciante','Limpeza'],['Água','Bebidas'],['Suco','Bebidas']];
