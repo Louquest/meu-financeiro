@@ -11,7 +11,18 @@ body.auth-ready #authGate{display:none !important}
 :root{--p:#6f2dbd;--p2:#8b5cf6;--bg:#f5f3f8;--card:#fff;--text:#211a2a;--muted:#766d80;--green:#16855b;--red:#d74747;--amber:#c98516;--line:#e8e1ee;--shadow:0 10px 28px rgba(63,36,82,.09)}*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}button,input,select,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}input,select,textarea{font-size:16px}.app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:92px}.hero{background:linear-gradient(135deg,#54208c,#7c3fc2 55%,#9a5ce0);color:#fff;padding:calc(22px + env(safe-area-inset-top)) 18px 28px;border-radius:0 0 28px 28px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center}.brand{font-size:14px;opacity:.9}.hero h1{margin:5px 0 2px;font-size:27px}.hero .sub{opacity:.8;font-size:13px}.balance{margin-top:24px}.balance .label{font-size:13px;opacity:.85}.balance .value{font-size:35px;font-weight:800;letter-spacing:-1px}.balance .projected{font-size:12px;opacity:.86;margin-top:3px}.eye{border:0;background:#ffffff1c;color:#fff;border-radius:12px;padding:9px 12px}.content{padding:16px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:-28px}.kpi{background:var(--card);border-radius:18px;padding:15px;box-shadow:var(--shadow);border:1px solid #ffffff}.kpi small{color:var(--muted)}.kpi b{display:block;font-size:18px;margin-top:5px}.green{color:var(--green)}.red{color:var(--red)}.amber{color:var(--amber)}.section{margin-top:22px}.section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.section-title h2{font-size:18px;margin:0}.section-title button,.link{border:0;background:transparent;color:var(--p);font-weight:700}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 5px 18px rgba(63,36,82,.04)}.row{display:flex;gap:10px;align-items:center}.between{justify-content:space-between}.icon{width:42px;height:42px;border-radius:13px;background:#f1e9f9;display:grid;place-items:center;font-size:20px;flex:0 0 auto}.tx{padding:11px 0;border-bottom:1px solid var(--line)}.tx:last-child{border:0}.tx .name{font-weight:750}.tx .meta{font-size:12px;color:var(--muted);margin-top:3px}.amount{font-weight:800;text-align:right}.pill{display:inline-block;font-size:11px;padding:4px 8px;border-radius:999px;font-weight:800}.paid{background:#e5f6ef;color:var(--green)}.pending{background:#fff3da;color:#9a6200}.overdue{background:#fde8e8;color:var(--red)}.goal{margin:10px 0}.goal-head{display:flex;justify-content:space-between;font-size:13px}.bar{height:9px;background:#eee8f2;border-radius:999px;overflow:hidden;margin-top:7px}.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--p),#b16de3);border-radius:999px}.empty{text-align:center;padding:24px 10px;color:var(--muted);font-size:14px}.nav{position:fixed;z-index:20;bottom:0;left:50%;transform:translateX(-50%);width:min(760px,100%);background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:7px 5px calc(7px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(38,23,48,.08)}.nav button{border:0;background:none;color:#817788;font-size:10px;padding:7px 2px}.nav button span{display:block;font-size:20px;margin-bottom:2px}.nav button.active{color:var(--p);font-weight:800}.view{display:none}.view.active{display:block}.fab{position:fixed;right:max(18px,calc((100vw - 760px)/2 + 18px));bottom:92px;width:56px;height:56px;border:0;border-radius:18px;background:var(--p);color:#fff;font-size:27px;box-shadow:0 10px 24px #6f2dbd55}.modal{position:fixed;inset:0;background:#1c1126aa;z-index:50;display:none;align-items:flex-end;justify-content:center}.modal.open{display:flex}.sheet{background:#fff;width:min(760px,100%);max-height:90vh;overflow:auto;border-radius:25px 25px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom))}.sheet h3{margin:0 0 14px}.form{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:12px;color:var(--muted);font-weight:700}.field input,.field select,.field textarea{width:100%;border:1px solid #ddd4e4;background:#fff;border-radius:12px;padding:12px;outline:none}.field input:focus,.field select:focus{border-color:var(--p)}.actions{display:flex;gap:9px;margin-top:15px}.btn{border:0;border-radius:13px;padding:12px 14px;font-weight:800}.primary{background:var(--p);color:#fff;flex:1}.secondary{background:#eee8f2;color:#463950}.danger{background:#fdeaea;color:#b62d2d}.filters{display:flex;gap:7px;overflow:auto;padding-bottom:4px}.chip{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 11px;color:var(--muted)}.chip.active{background:#efe3f8;color:var(--p);border-color:#dcc2ef;font-weight:800}.search{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff;margin-bottom:10px}.market-item{display:grid;grid-template-columns:1fr 78px 68px;gap:7px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}.market-item:last-child{border:0}.market-item input{width:100%;padding:8px;border:1px solid var(--line);border-radius:9px}.market-item .prod{font-weight:700}.market-item small{display:block;color:var(--muted);font-weight:400}.check{display:flex;align-items:center;gap:8px}.check input{width:19px;height:19px;accent-color:var(--p)}.totalbox{position:sticky;bottom:0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:13px;margin-top:12px;box-shadow:0 8px 22px #30203f18}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.quick button{border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 6px;color:var(--text)}.quick span{display:block;font-size:20px}.notice{font-size:12px;color:var(--muted);background:#f1ecf5;border-radius:12px;padding:10px}.settings-list button{width:100%;border:0;background:#fff;text-align:left;padding:14px;border-bottom:1px solid var(--line);font-weight:700}.settings-list button:last-child{border:0}.head-simple{padding:22px 16px 5px}.head-simple h1{font-size:25px;margin:0}.head-simple p{color:var(--muted);font-size:13px;margin:5px 0}.donut{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--p) 0deg,#eee8f2 0);margin:auto}.donut:after{content:"";width:78px;height:78px;background:#fff;border-radius:50%}.catrow{display:grid;grid-template-columns:1fr auto;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}@media(min-width:600px){.grid{grid-template-columns:repeat(4,1fr)}.form{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
-<body class="auth-loading"><div id="authGate" style="position:fixed;inset:0;z-index:9999;background:#f5f3f8;display:grid;place-items:center;padding:20px"><div class="card" style="width:min(420px,100%);padding:22px"><div style="font-size:13px;color:var(--p);font-weight:800;letter-spacing:.5px">MEU FINANCEIRO</div><h2 id="authTitle" style="margin:8px 0 6px">Entrar</h2><p id="authMsg" style="margin:0 0 16px;color:var(--muted);font-size:13px">Entre para acessar sua família financeira.</p><div class="field" style="margin-bottom:10px"><label>E-mail</label><input id="authEmail" type="email" autocomplete="email" placeholder="seu@email.com"></div><div class="field" style="margin-bottom:10px"><label>Senha</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="Sua senha" onkeydown="if(event.key==='Enter') loginUser()"></div><button class="btn primary" style="width:100%" onclick="loginUser()">Entrar</button><div id="authStatus" style="font-size:12px;color:var(--muted);margin-top:12px"></div></div></div>
+<body class="auth-loading">
+<div id="authGate" style="position:fixed;inset:0;z-index:9999;background:#f5f3f8;display:grid;place-items:center;padding:20px">
+  <form id="loginForm" class="card" style="width:min(420px,100%);padding:22px" autocomplete="on">
+    <div style="font-size:13px;color:#6f2dbd;font-weight:800;letter-spacing:.5px">MEU FINANCEIRO</div>
+    <h2 style="margin:8px 0 6px">Entrar</h2>
+    <p style="margin:0 0 16px;color:#766d80;font-size:13px">Entre para acessar sua família financeira.</p>
+    <div class="field" style="margin-bottom:10px"><label>E-mail</label><input id="authEmail" type="email" autocomplete="email" required placeholder="seu@email.com"></div>
+    <div class="field" style="margin-bottom:10px"><label>Senha</label><input id="authPassword" type="password" autocomplete="current-password" required placeholder="Sua senha"></div>
+    <button id="loginButton" type="submit" class="btn primary" style="width:100%">Entrar</button>
+    <div id="authStatus" style="font-size:12px;color:#766d80;margin-top:12px;min-height:18px">Login online • versão 3</div>
+  </form>
+</div>
 <div class="app">
   <section id="home" class="view active">
     <div class="hero"><div class="top"><div><div class="brand">MEU FINANCEIRO</div><h1>Olá 👋</h1><div class="sub" id="monthLabel"></div></div><button class="eye" onclick="toggleMoney()">◉</button></div><div class="balance"><div class="label">Saldo disponível</div><div class="value money" id="balance">R$ 0,00</div><div class="projected">Saldo após pendências: <b class="money" id="projected">R$ 0,00</b></div></div></div>
@@ -98,14 +109,32 @@ class SupaQuery{
 let FAMILY_ID=null,CURRENT_USER=null,REMOTE_READY=false;
 
 async function loginUser(){
-  const email=$('authEmail').value.trim(),password=$('authPassword').value,st=$('authStatus');
-  if(!email||!password){st.textContent='Informe e-mail e senha.';return}
-  st.textContent='Entrando...';
+  const emailEl=document.getElementById('authEmail');
+  const passEl=document.getElementById('authPassword');
+  const st=document.getElementById('authStatus');
+  const btn=document.getElementById('loginButton');
+  const email=(emailEl?.value||'').trim(), password=passEl?.value||'';
+  if(!email||!password){st.textContent='Digite o e-mail e a senha.';return}
+  btn.disabled=true; btn.textContent='Entrando...'; st.textContent='Conectando ao Supabase...';
   try{
-    const {error}=await db.auth.signInWithPassword({email,password});
-    if(error){st.textContent='Não foi possível entrar: '+error.message;return}
+    const r=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=password',{
+      method:'POST',
+      headers:{'apikey':SUPABASE_PUBLISHABLE_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({email,password})
+    });
+    let data={}; try{data=await r.json()}catch(_){}
+    if(!r.ok){
+      st.textContent='Login não autorizado: '+(data.error_description||data.msg||data.message||('HTTP '+r.status));
+      return;
+    }
+    saveSession(data);
+    st.textContent='Login aceito. Carregando dados...';
     await startRemoteApp();
-  }catch(e){st.textContent='Erro de conexão: '+e.message}
+  }catch(e){
+    st.textContent='Falha de conexão: '+(e?.message||String(e));
+  }finally{
+    btn.disabled=false; btn.textContent='Entrar';
+  }
 }
 async function signOutUser(){await db.auth.signOut();REMOTE_READY=false;document.body.classList.remove('auth-ready');document.body.classList.add('auth-loading');$('authStatus').textContent='Sessão encerrada.'}
 async function getFamilyId(){
@@ -252,6 +281,17 @@ function resetData(){alert('Os dados principais agora estão no Supabase. Para e
 function dateBR(d){if(!d)return'Sem data';let [y,m,day]=d.split('-');return`${day}/${m}/${y}`}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}function escAttr(s){return esc(s).replace(/'/g,'&#039;')}
 document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
-startRemoteApp();
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const form=document.getElementById('loginForm');
+  if(form){
+    form.addEventListener('submit',e=>{
+      e.preventDefault();
+      loginUser();
+    });
+  }
+  startRemoteApp();
+});
+
 </script>
 </body></html>
