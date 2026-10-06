@@ -20,7 +20,7 @@ body.auth-ready #authGate{display:none !important}
     <div class="field" style="margin-bottom:10px"><label>E-mail</label><input id="authEmail" type="email" autocomplete="email" required placeholder="seu@email.com"></div>
     <div class="field" style="margin-bottom:10px"><label>Senha</label><input id="authPassword" type="password" autocomplete="current-password" required placeholder="Sua senha"></div>
     <button id="loginButton" type="submit" class="btn primary" style="width:100%">Entrar</button>
-    <div id="authStatus" style="font-size:12px;color:#766d80;margin-top:12px;min-height:18px">Login online • versão 3</div>
+    <div id="authStatus" style="font-size:12px;color:#766d80;margin-top:12px;min-height:18px">Login online • versão 4 revisada</div>
   </form>
 </div>
 <div class="app">
@@ -107,6 +107,11 @@ class SupaQuery{
 }
 
 let FAMILY_ID=null,CURRENT_USER=null,REMOTE_READY=false;
+const dbTipo = type => type==='income' ? 'entrada' : 'despesa';
+const appTipo = tipo => tipo==='entrada' ? 'income' : 'expense';
+const dbStatus = (type,status) => type==='income' ? 'pago' : (status==='paid' ? 'pago' : 'pendente');
+const appStatus = status => status==='pago' ? 'paid' : 'pending';
+
 
 async function loginUser(){
   const emailEl=document.getElementById('authEmail');
@@ -150,7 +155,7 @@ async function loadRemote(){
   ]);
   if(txRes.error)throw txRes.error;if(goalRes.error)throw goalRes.error;if(prodRes.error)throw prodRes.error;
   S={
-    transactions:(txRes.data||[]).map(t=>({id:t.id,name:t.descricao,value:Number(t.valor),type:t.tipo==='entrada'?'income':'expense',category:t.categoria||'Outros',date:t.data,status:t.status==='pago'?'paid':'pending',note:t.observacao||''})),
+    transactions:(txRes.data||[]).map(t=>({id:t.id,name:t.descricao,value:Number(t.valor),type:appTipo(t.tipo),category:t.categoria||'Outros',date:t.data,status:appStatus(t.status),note:t.observacao||''})),
     goals:(goalRes.data||[]).map(g=>({id:g.id,name:g.nome,target:Number(g.valor_meta),saved:Number(g.valor_guardado),date:g.prazo||'',icon:g.icone||'🎯'})),
     products:(prodRes.data||[]).map(p=>({id:p.id,name:p.nome,cat:p.categoria||'Outros',price:Number(p.preco||0),qty:Number(p.quantidade||1),checked:!!p.selecionado}))
   };
@@ -161,7 +166,7 @@ async function startRemoteApp(){
     const {data,error}=await db.auth.getUser();if(error)throw error;if(!data.user)return;
     CURRENT_USER=data.user;$('authStatus').textContent='Carregando seus dados...';await loadRemote();
     document.body.classList.remove('auth-loading');document.body.classList.add('auth-ready');$('authStatus').textContent='';
-  }catch(e){REMOTE_READY=false;$('authStatus').textContent='Erro ao carregar a família: '+e.message}
+  }catch(e){REMOTE_READY=false;document.body.classList.remove('auth-ready');document.body.classList.add('auth-loading');$('authStatus').textContent='Erro ao carregar a família: '+e.message}
 }
 </script>
 <script>
@@ -193,12 +198,15 @@ function openTx(type='expense',edit=null){txModal.dataset.edit=edit?.id||'';txTi
 function statusVisibility(){statusField.style.display=txType.value==='income'?'none':'flex'}
 async function saveTx(){
   if(!txName.value.trim()||Number(txValue.value)<=0)return alert('Informe descrição e valor.');
-  if(!REMOTE_READY)return alert('Aguarde a conexão com o financeiro.');
+  if(!REMOTE_READY||!FAMILY_ID)return alert('Aguarde a conexão com o financeiro.');
+  const saveBtn=document.querySelector('#txModal .btn.primary');
+  if(saveBtn?.disabled)return;
+  if(saveBtn){saveBtn.disabled=true;saveBtn.textContent='Salvando...'}
   const editing=txModal.dataset.edit||'';
   const payload={
     descricao:txName.value.trim(),valor:Number(txValue.value),
-    tipo:txType.value==='income'?'entrada':'despesa',categoria:txCategory.value,
-    data:txDate.value||today(),status:txType.value==='income'?'pago':txStatus.value,
+    tipo:dbTipo(txType.value),categoria:txCategory.value,
+    data:txDate.value||today(),status:dbStatus(txType.value,txStatus.value),
     observacao:txNote.value.trim(),familia_id:FAMILY_ID
   };
   let res;
@@ -207,9 +215,13 @@ async function saveTx(){
   }else{
     res=await db.from('movimentacoes').insert(payload);
   }
-  if(res.error)return alert('Erro ao salvar: '+res.error.message);
+  if(res.error){
+    if(saveBtn){saveBtn.disabled=false;saveBtn.textContent='Salvar'}
+    return alert('Erro ao salvar: '+res.error.message);
+  }
   closeModal('txModal');
   await loadRemote();
+  if(saveBtn){saveBtn.disabled=false;saveBtn.textContent='Salvar'}
 }
 function editTx(i){let t=S.transactions.find(x=>x.id===i);if(!t)return;openTx(t.type,t);setTimeout(()=>{let b=document.createElement('button');b.className='btn danger';b.textContent='Excluir';b.onclick=async()=>{if(confirm('Excluir esta movimentação?')){let r=await db.from('movimentacoes').delete().eq('id',i).eq('familia_id',FAMILY_ID);if(r.error)return alert('Erro ao excluir: '+r.error.message);closeModal('txModal');await loadRemote()}};document.querySelector('#txModal .actions').prepend(b)},0)}
 function renderMarket(){let cats=['Todos',...new Set(S.products.map(p=>p.cat))];marketCats.innerHTML=cats.map(c=>`<button class="chip ${c===marketCat?'active':''}" onclick="setMarketCat('${escAttr(c)}')">${esc(c)}</button>`).join('');let q=(marketSearch?.value||'').toLowerCase(),a=S.products.filter(p=>(marketCat==='Todos'||p.cat===marketCat)&&p.name.toLowerCase().includes(q));marketList.innerHTML=a.length?a.map(p=>`<div class="market-item"><label class="check"><input type="checkbox" ${p.checked?'checked':''} onchange="updProd('${p.id}','checked',this.checked)"><span class="prod">${esc(p.name)}<small>${esc(p.cat)}</small></span></label><input aria-label="Preço" type="number" step="0.01" min="0" value="${p.price||''}" placeholder="R$" onchange="updProd('${p.id}','price',this.value)"><input aria-label="Qtd" type="number" step="1" min="1" value="${p.qty||1}" onchange="updProd('${p.id}','qty',this.value)"></div>`).join(''):'<div class="empty">Nenhum produto.</div>';let sel=S.products.filter(p=>p.checked),total=sel.reduce((a,p)=>a+Number(p.price||0)*Number(p.qty||1),0);marketTotal.textContent=money(total);marketCount.textContent=sel.reduce((a,p)=>a+Number(p.qty||1),0)}
@@ -227,6 +239,7 @@ async function updProd(i,f,v){
 function openProduct(){prodName.value='';prodPrice.value='';productModal.classList.add('open')}
 async function saveProduct(){
   if(!prodName.value.trim())return alert('Informe o produto.');
+  if(!REMOTE_READY||!FAMILY_ID)return alert('Aguarde a conexão com o financeiro.');
   const payload={familia_id:FAMILY_ID,nome:prodName.value.trim(),categoria:prodCat.value,
     preco:Number(prodPrice.value||0),quantidade:1,selecionado:false};
   const r=await db.from('produtos_mercado').insert(payload);
@@ -238,11 +251,11 @@ async function clearShopping(){
   if(r.error)return alert('Erro ao limpar lista: '+r.error.message);
   await loadRemote();
 }
-function marketToExpense(){S.products.forEach(p=>{p.checked=false;p.qty=1});save()}
 function marketToExpense(){let sel=S.products.filter(p=>p.checked),total=sel.reduce((a,p)=>a+Number(p.price||0)*Number(p.qty||1),0);if(!sel.length)return alert('Marque os produtos da compra.');if(total<=0)return alert('Informe os preços para calcular a compra.');openTx('expense');txName.value='Compra de mercado';txValue.value=total.toFixed(2);txCategory.value='Mercado';txStatus.value='paid';txNote.value=sel.map(p=>`${p.qty}x ${p.name}`).join(', ')}
 function openGoal(){goalName.value='';goalTarget.value='';goalSaved.value='';goalDate.value='';goalModal.classList.add('open')}
 async function saveGoal(){
   if(!goalName.value.trim()||Number(goalTarget.value)<=0)return alert('Informe nome e valor da meta.');
+  if(!REMOTE_READY||!FAMILY_ID)return alert('Aguarde a conexão com o financeiro.');
   const r=await db.from('metas').insert({
     familia_id:FAMILY_ID,nome:goalName.value.trim(),valor_meta:Number(goalTarget.value),
     valor_guardado:Number(goalSaved.value||0),prazo:goalDate.value||null,icone:goalIcon.value
